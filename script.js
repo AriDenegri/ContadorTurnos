@@ -1,11 +1,11 @@
-// Carga los turnos restantes del Local Storage o usa el valor inicial (43200)
+// Carga los turnos restantes y el turno actual desde el Local Storage o usa los valores iniciales
 let turnosRestantes = localStorage.getItem("turnosRestantes") 
     ? parseInt(localStorage.getItem("turnosRestantes")) 
     : 43200;
 
 let turnoActual = localStorage.getItem("turnoActual") 
     ? parseInt(localStorage.getItem("turnoActual")) 
-    : 1;
+    : 43200;  // Comienza en el turno máximo (43200)
 
 const turnosRestantesEl = document.getElementById("turnosRestantes");
 const mensajeFinalEl = document.getElementById("mensajeFinal");
@@ -52,7 +52,7 @@ pasarTurnoBtn.addEventListener("click", () => {
 // Manejador para el botón "Resetear contador"
 resetearBtn.addEventListener("click", () => {
     turnosRestantes = 43200;
-    turnoActual = 1; // Resetear turno actual a 1
+    turnoActual = 43200; // Resetear turno actual al valor máximo (43200)
     guardarTurnos();
     actualizarInterfaz();
 });
@@ -64,23 +64,27 @@ turnosInput.addEventListener("input", (e) => {
     if (valorIngresado > 43200) {
         errorMensaje.style.display = 'block';  // Muestra el mensaje de error
         e.target.value = 43200;  // Resetea el valor al límite máximo
-        turnosRestantes = 43200;  // Ajusta la variable de turnos
+        turnosRestantes = 0;  // Ajusta la variable de turnos restantes a 0
+        turnoActual = 43200; // Ajusta el turno actual al máximo
+    } else if (valorIngresado < 1) {
+        errorMensaje.style.display = 'block';  // Muestra el mensaje de error
+        e.target.value = 1;  // Resetea el valor al mínimo (1)
+        turnosRestantes = 43199;  // Ajusta los turnos restantes al máximo menos 1
+        turnoActual = 1;  // Ajusta el turno actual al mínimo (1)
     } else {
         errorMensaje.style.display = 'none';  // Oculta el mensaje de error
-        turnosRestantes = valorIngresado;  // Actualiza el valor de los turnos
+        turnoActual = valorIngresado;  // Actualiza el valor de los turnos actuales
+        turnosRestantes = 43200 - turnoActual;  // Calcula los turnos restantes
+
+        // Mostrar turno anterior y turno actual
+        const turnoAnterior = turnoActual - 1;
+        const turnoAnteriorEl = document.getElementById("turnoAnterior");
+        turnoAnteriorEl.textContent = `Turno anterior: ${turnoAnterior}`;
+
+        const turnoActualEl = document.getElementById("turnoActual");
+        turnoActualEl.textContent = `Turno actual: ${turnoActual}`;
     }
-
-    // Calcular el turno actual basado en los turnos restantes
-    turnoActual = 43200 - turnosRestantes + 1; // El turno actual es el valor restante
-    const turnoAnterior = turnoActual - 1; // El turno anterior es el turno actual menos 1
-
-    // Actualizar el turno anterior y actual en la interfaz
-    const turnoAnteriorEl = document.getElementById("turnoAnterior");
-    turnoAnteriorEl.textContent = `Turno anterior: ${turnoAnterior}`;
-
-    const turnoActualEl = document.getElementById("turnoActual");
-    turnoActualEl.textContent = `Turno actual: ${turnoActual}`;
-
+    
     guardarTurnos();  // Guarda el valor de los turnos restantes y turno actual
     actualizarInterfaz();  // Actualiza la interfaz
 });
