@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Turnos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Contador de Turnos</h1>
+        <p id="turnosRestantes">Turnos restantes: 43200</p>
+        <p id="turnoAnterior"></p>
+        <p id="turnoActual"></p>
+        
+        <!-- Input para la cantidad de turnos -->
+        <label for="turnosInput">Cantidad de Turnos:</label>
+        <input type="number" id="turnosInput" min="0" max="43200" value="43200">
+        <p id="errorMensaje" style="color: red; display: none;">La cantidad de turnos no puede ser mayor a 43200.</p>
+        
+        <button id="pasarTurnoBtn">Pasar turno</button>
+        <button id="resetearBtn">Resetear contador</button>
+        <p id="mensajeFinal"></p>
+
+        <!-- Botones para mostrar los ítems y encuentros -->
+        <button id="itemChicoBtn">Mostrar Ítem Chico</button>
+        <button id="itemGrandeBtn">Mostrar Ítem Grande</button>
+        <button id="comidaBtn">Mostrar Comida</button>
+        <button id="encuentrosBtn">Mostrar Encuentros</button>
+
+        <div id="resultado"></div>
+        <div>
+            <h2>DATOS PARA TENER EN CUENTA:</h2>
+            <ul>
+                <li>15 pies por cuadrado en cada casa.</li>
+            </ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
