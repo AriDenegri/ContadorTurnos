@@ -14,9 +14,18 @@ const resetearBtn = document.getElementById("resetearBtn");
 const turnosInput = document.getElementById("turnosInput");
 const errorMensaje = document.getElementById("errorMensaje");
 
-// Actualiza la interfaz con los turnos restantes y el estado del botón
+// Nueva función para calcular y mostrar los días restantes
+function calcularDiasRestantes() {
+    const diasRestantes = Math.floor(turnosRestantes / 1440);
+    const diasRestantesEl = document.getElementById("diasRestantes");
+    diasRestantesEl.textContent = `Días restantes: ${diasRestantes}`;
+}
+
+// Actualiza la interfaz con los turnos restantes, días restantes y el estado del botón
 function actualizarInterfaz() {
     turnosRestantesEl.textContent = `Turnos restantes: ${turnosRestantes}`;
+    calcularDiasRestantes(); // Llama a la función para mostrar los días restantes
+
     const turnoAnteriorEl = document.getElementById("turnoAnterior");
     turnoAnteriorEl.textContent = `Turno anterior: ${turnoActual - 1}`;
 
@@ -88,9 +97,72 @@ turnosInput.addEventListener("input", (e) => {
     guardarTurnos();  // Guarda el valor de los turnos restantes y turno actual
     actualizarInterfaz();  // Actualiza la interfaz
 });
+// Función para generar un número aleatorio entre 1 y el máximo del dado
+function tirarDado(max) {
+  return Math.floor(Math.random() * max) + 1;
+}
 
-// Inicializa la interfaz cuando se carga la página
-actualizarInterfaz();
+// Manejadores de eventos para cada dado
+document.getElementById("d5Btn").addEventListener("click", function() {
+  const resultado = tirarDado(5);
+  document.getElementById("resultadoDado").textContent = `Resultado del D5: ${resultado}`;
+  
+  const boton = this;
+  const textoOriginal = boton.textContent;
+  boton.textContent = "!boom!";
+  boton.disabled = true; // Deshabilita el botón
+  
+  // Después de 1 segundo, restaura el texto original y habilita el botón
+  setTimeout(() => {
+      boton.textContent = textoOriginal;
+      boton.disabled = false; // Habilita el botón
+  }, 1000);
+});
+
+document.getElementById("d10Btn").addEventListener("click", function() {
+  const resultado = tirarDado(10);
+  document.getElementById("resultadoDado").textContent = `Resultado del D10: ${resultado}`;
+  
+  const boton = this;
+  const textoOriginal = boton.textContent;
+  boton.textContent = "!boom!";
+  boton.disabled = true;
+  
+  setTimeout(() => {
+      boton.textContent = textoOriginal;
+      boton.disabled = false;
+  }, 1000);
+});
+
+document.getElementById("d20Btn").addEventListener("click", function() {
+  const resultado = tirarDado(20);
+  document.getElementById("resultadoDado").textContent = `Resultado del D20: ${resultado}`;
+  
+  const boton = this;
+  const textoOriginal = boton.textContent;
+  boton.textContent = "!boom!";
+  boton.disabled = true;
+  
+  setTimeout(() => {
+      boton.textContent = textoOriginal;
+      boton.disabled = false;
+  }, 1000);
+});
+
+document.getElementById("d100Btn").addEventListener("click", function() {
+  const resultado = tirarDado(100);
+  document.getElementById("resultadoDado").textContent = `Resultado del D100: ${resultado}`;
+  
+  const boton = this;
+  const textoOriginal = boton.textContent;
+  boton.textContent = "!boom!";
+  boton.disabled = true;
+  
+  setTimeout(() => {
+      boton.textContent = textoOriginal;
+      boton.disabled = false;
+  }, 1000);
+});
 
 // Pedido de la lista desde el JSON
 fetch("listas.json")
@@ -129,3 +201,6 @@ fetch("listas.json")
     });
   })
   .catch(err => console.error('Error al cargar json:', err));
+// Inicializa la interfaz cuando se carga la página
+actualizarInterfaz();
+
